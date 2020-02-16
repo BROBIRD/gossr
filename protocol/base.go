@@ -1,10 +1,9 @@
 package protocol
 
 import (
-	"errors"
-	"strings"
-
 	"github.com/whojave/gossr/ssr"
+	"strings"
+	"sync"
 )
 
 type creator func() IProtocol
@@ -23,9 +22,10 @@ type IProtocol interface {
 	GetData() interface{}
 }
 
-type authData struct {
+type AuthData struct {
 	clientID     []byte
 	connectionID uint32
+	mutex       sync.Mutex
 }
 
 func register(name string, c creator) {

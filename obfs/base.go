@@ -1,7 +1,6 @@
 package obfs
 
 import (
-	"errors"
 	"strings"
 
 	"github.com/whojave/gossr/ssr"
@@ -17,8 +16,8 @@ var (
 type IObfs interface {
 	SetServerInfo(s *ssr.ServerInfoForObfs)
 	GetServerInfo() (s *ssr.ServerInfoForObfs)
-	Encode(data []byte) ([]byte, error)
-	Decode(data []byte) ([]byte, uint64, error)
+	Encode(data []byte) (encodedData []byte, err error)
+	Decode(data []byte) (decodedData []byte, needSendBack bool, err error)
 	SetData(data interface{})
 	GetData() interface{}
 }

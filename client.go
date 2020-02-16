@@ -23,7 +23,8 @@ func NewSSRClient(u *url.URL) (*SSTCPConn, error) {
 	}
 
 	dialer := net.Dialer{
-		Timeout: time.Millisecond * 500,
+		Timeout:   time.Millisecond * 500,
+		DualStack: true,
 	}
 	conn, err := dialer.Dial("tcp", u.Host)
 	if err != nil {
@@ -39,10 +40,7 @@ func NewSSRClient(u *url.URL) (*SSTCPConn, error) {
 	rs := strings.Split(ssconn.RemoteAddr().String(), ":")
 	port, _ := strconv.Atoi(rs[1])
 
-	ssconn.IObfs, err = obfs.NewObfs(query.Get("obfs"))
-	if err != nil {
-		return nil, err
-	}
+	ssconn.IObfs = obfs.NewObfs(query.Get("obfs"))
 	obfsServerInfo := &ssr.ServerInfoForObfs{
 		Host:   rs[0],
 		Port:   uint16(port),
@@ -50,10 +48,7 @@ func NewSSRClient(u *url.URL) (*SSTCPConn, error) {
 		Param:  query.Get("obfs-param"),
 	}
 	ssconn.IObfs.SetServerInfo(obfsServerInfo)
-	ssconn.IProtocol, err = protocol.NewProtocol(query.Get("protocol"))
-	if err != nil {
-		return nil, err
-	}
+	ssconn.IProtocol = protocol.NewProtocol(query.Get("protocol"))
 	protocolServerInfo := &ssr.ServerInfoForObfs{
 		Host:   rs[0],
 		Port:   uint16(port),

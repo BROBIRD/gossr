@@ -60,11 +60,11 @@ func (a Addr) IPString() string {
 	return ""
 }
 
-func readAddr(r io.Reader, b []byte) (addr Addr, err error) {
+func readAddr(r io.Reader, b []byte) (Addr, error) {
 	if len(b) < MaxAddrLen {
 		return nil, io.ErrShortBuffer
 	}
-	_, err = io.ReadFull(r, b[:1]) // read 1st byte for address type
+	_, err := io.ReadFull(r, b[:1]) // read 1st byte for address type
 	if err != nil {
 		return nil, err
 	}
@@ -75,19 +75,16 @@ func readAddr(r io.Reader, b []byte) (addr Addr, err error) {
 		if err != nil {
 			return nil, err
 		}
-		hostLen := uint16(b[1])
-		_, err = io.ReadFull(r, b[2:2+hostLen+2])
-		addr = b[:1+1+hostLen+2]
-		return
+		_, err = io.ReadFull(r, b[2:2+int(b[1])+2])
+		return b[:1+1+int(b[1])+2], err
 	case AtypIPv4:
 		_, err = io.ReadFull(r, b[1:1+net.IPv4len+2])
-		addr = b[:1+net.IPv4len+2]
-		return
+		return b[:1+net.IPv4len+2], err
 	case AtypIPv6:
 		_, err = io.ReadFull(r, b[1:1+net.IPv6len+2])
-		addr = b[:1+net.IPv6len+2]
-		return
+		return b[:1+net.IPv6len+2], err
 	}
+
 	return nil, ErrAddressNotSupported
 }
 

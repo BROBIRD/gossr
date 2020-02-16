@@ -5,10 +5,11 @@ import (
 	"crypto/cipher"
 	"crypto/des"
 	"crypto/md5"
-	"crypto/rand"
 	"crypto/rc4"
 	"encoding/binary"
 	"errors"
+	"math/rand"
+	"time"
 
 	"github.com/whojave/gossr/tools"
 	"github.com/whojave/gossr/tools/leakybuf"
@@ -16,7 +17,7 @@ import (
 	"github.com/dgryski/go-camellia"
 	"github.com/dgryski/go-idea"
 	"github.com/dgryski/go-rc2"
-	"gitlab.com/yawning/chacha20.git"
+	chacha20 "gitlab.com/yawning/chacha20.git"
 	"golang.org/x/crypto/blowfish"
 	"golang.org/x/crypto/cast5"
 	"golang.org/x/crypto/salsa20/salsa"
@@ -234,6 +235,9 @@ func NewStreamCipher(method, password string) (c *StreamCipher, err error) {
 
 	c = &StreamCipher{key: key, info: mi}
 
+	if err != nil {
+		return nil, err
+	}
 	return c, nil
 }
 
@@ -241,7 +245,8 @@ func NewStreamCipher(method, password string) (c *StreamCipher, err error) {
 func (c *StreamCipher) initEncrypt() (iv []byte, err error) {
 	if c.iv == nil {
 		iv = make([]byte, c.info.ivLen)
-		_, _ = rand.Read(iv)
+		rand.Seed(time.Now().UnixNano())
+		rand.Read(iv)
 		c.iv = iv
 	} else {
 		iv = c.iv
