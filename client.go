@@ -40,15 +40,20 @@ func NewSSRClient(u *url.URL) (*SSTCPConn, error) {
 	rs := strings.Split(ssconn.RemoteAddr().String(), ":")
 	port, _ := strconv.Atoi(rs[1])
 
-	ssconn.IObfs = obfs.NewObfs(query.Get("obfs"))
+	ssconn.IObfs, err = obfs.NewObfs(query.Get("obfs"))
+	if err != nil {
+		return nil, err
+	}
 	obfsServerInfo := &ssr.ServerInfoForObfs{
 		Host:   rs[0],
 		Port:   uint16(port),
 		TcpMss: 1460,
 		Param:  query.Get("obfs-param"),
 	}
-	ssconn.IObfs.SetServerInfo(obfsServerInfo)
-	ssconn.IProtocol = protocol.NewProtocol(query.Get("protocol"))
+	ssconn.IProtocol, err = protocol.NewProtocol(query.Get("protocol"))
+	if err != nil {
+		return nil, err
+	}
 	protocolServerInfo := &ssr.ServerInfoForObfs{
 		Host:   rs[0],
 		Port:   uint16(port),
