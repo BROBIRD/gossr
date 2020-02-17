@@ -8,7 +8,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/whojave/gossr/ssr"
+	"github.com/brobird/gossr/ssr"
 )
 
 var (

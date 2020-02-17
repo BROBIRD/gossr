@@ -11,8 +11,8 @@ import (
 	"math/rand"
 	"time"
 
-	"github.com/whojave/gossr/tools"
-	"github.com/whojave/gossr/tools/leakybuf"
+	"github.com/brobird/gossr/tools"
+	"github.com/brobird/gossr/tools/leakybuf"
 
 	"github.com/dgryski/go-camellia"
 	"github.com/dgryski/go-idea"
