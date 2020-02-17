@@ -2,7 +2,7 @@ package obfs
 
 import (
 	"strings"
-
+	"errors"
 	"github.com/brobird/gossr/ssr"
 )
 
