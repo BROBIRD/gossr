@@ -2,6 +2,7 @@ package protocol
 
 import (
 	"github.com/whojave/gossr/ssr"
+	"errors"
 	"strings"
 	"sync"
 )
