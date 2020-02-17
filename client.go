@@ -50,6 +50,7 @@ func NewSSRClient(u *url.URL) (*SSTCPConn, error) {
 		TcpMss: 1460,
 		Param:  query.Get("obfs-param"),
 	}
+	ssconn.IObfs.SetServerInfo(obfsServerInfo)
 	ssconn.IProtocol, err = protocol.NewProtocol(query.Get("protocol"))
 	if err != nil {
 		return nil, err
