@@ -54,7 +54,8 @@ func NewSSRClient(u *url.URL) (*SSTCPConn, error) {
 	ssconn.IProtocol, err = protocol.NewProtocol(query.Get("protocol"))
 	if err != nil {
 		return nil, err
-	}protocolServerInfo := &ssr.ServerInfoForObfs{
+	}
+	protocolServerInfo := &ssr.ServerInfoForObfs{
 		Host:   rs[0],
 		Port:   uint16(port),
 		TcpMss: 1460,
