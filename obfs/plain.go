@@ -1,7 +1,7 @@
 package obfs
 
 import (
-	"github.com/whojave/gossr/ssr"
+	"github.com/brobird/gossr/ssr"
 )
 
 func init() {

@@ -3,7 +3,7 @@ package obfs
 import (
 	"strings"
 	"errors"
-	"github.com/whojave/gossr/ssr"
+	"github.com/brobird/gossr/ssr"
 )
 
 type creator func() IObfs

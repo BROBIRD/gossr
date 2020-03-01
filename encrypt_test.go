@@ -7,7 +7,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/whojave/gossr/tools"
+	"github.com/brobird/gossr/tools"
 )
 
 const text = "Don't tell me the moon is shining; show me the glint of light on broken glass."
